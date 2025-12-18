@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      background-image: url('{{ url_for("static", filename="images/Stock2.jpg") }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-card {
+      background: lch(81.42% 44.14 176.61 / 0.9); /* bright peachy color */
+      color: #333; /* dark text for readability */
+      padding: 60px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .form-card h2 { font-size: 2rem; margin-bottom: 30px; font-weight: bold; }
+    .form-control { height: 50px; font-size: 1.1rem; }
+    .btn { height: 50px; font-size: 1.1rem; font-weight: bold; }
+
+    @media (max-width: 576px) {
+      .form-card { padding: 40px; max-width: 90%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-card">
+    <h2 class="text-center">Login</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <div class="mb-3">
+        <label>Username</label>
+        <input type="text" class="form-control" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label>Password</label>
+        <input type="password" class="form-control" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-success w-100">Login</button>
+      
+    </form>
+    <p class="text-center mt-3">Don't have an account? <a href="{{ url_for('register') }}" style="color:#d40b0b;">Register</a></p>
+  </div>
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+
+  function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then((result) => {
+        const user = result.user;
+        // Send ID token to Flask
+        fetch('/google_login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({idToken: await user.getIdToken()})
+        })
+        .then(res => {
+          if(res.ok) window.location.href = '/home';
+        })
+        .catch(err => alert('Google login failed!'));
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Google login failed!");
+      });
+  }
+</script>
+
+</body>
+</html>

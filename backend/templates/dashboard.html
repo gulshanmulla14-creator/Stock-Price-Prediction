@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+    <!-- Welcome Header -->
+    <div class="mb-4">
+        <h2>Welcome, {{ email }}!</h2>
+        <p>You have successfully logged in.</p>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="mb-5">
+        <a href="{{ url_for('home') }}" class="btn btn-primary me-2 mb-2">Home</a>
+        <a href="{{ url_for('request_reset') }}" class="btn btn-warning me-2 mb-2">Reset Password</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger mb-2">Logout</a>
+    </div>
+
+    <!-- Dashboard Content using Bootstrap Grid -->
+    <div class="row">
+
+        <!-- Portfolio Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Portfolio</h5>
+                    <p class="card-text">Your stock holdings and their current value will be shown here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Predictions Card -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Stock Predictions</h5>
+                    <p class="card-text">Predicted trends for your selected stocks will appear here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Card -->
+        <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Activity</h5>
+                    <p class="card-text">Login times, password changes, and other actions.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5 text-center text-muted">
+        <p>&copy; 2025 Your Project Name</p>
+    </footer>
+
+</body>
+</html>

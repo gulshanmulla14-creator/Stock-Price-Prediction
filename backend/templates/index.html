@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h1>Flask Auth Project</h1>
+<p>Use the links below:</p>
+<ul>
+  <li><a href="{{ url_for('register') }}">Register</a></li>
+  <li><a href="{{ url_for('login') }}">Login</a></li>
+  <li><a href="{{ url_for('request_reset') }}">Reset Password</a></li>
+</ul>
+</body>
+</html>
